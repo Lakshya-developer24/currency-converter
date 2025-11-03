@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Currency Converter</title>
+<style>
+body {
+  font-family: Arial;
+  padding: 20px;
+  background: #f3f3f3;
+}
+.container {
+  background: white;
+  padding: 20px;
+  width: 350px;
+  margin: auto;
+  border-radius: 8px;
+}
+button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Currency Converter</h2>
+  <label>Amount:</label>
+  <input type="number" id="amount" value="1">
+
+  <label>From:</label>
+  <select id="base">
+    <option>USD</option><option>INR</option><option>EUR</option><option>GBP</option>
+  </select>
+
+  <label>To:</label>
+  <select id="target">
+    <option>INR</option><option>USD</option><option>EUR</option><option>GBP</option>
+  </select>
+
+  <button onclick="convert()">Convert</button>
+
+  <p id="output"></p>
+</div>
+
+<script>
+function convert() {
+  let base = document.getElementById("base").value;
+  let target = document.getElementById("target").value;
+  let amount = document.getElementById("amount").value;
+
+  fetch(`/convert?base=${base}&target=${target}&amount=${amount}`)
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById("output").innerHTML =
+        `${amount} ${base} = <b>${d.converted} ${target}</b>`;
+    });
+}
+</script>
+</body>
+</html>
